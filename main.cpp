@@ -1,8 +1,8 @@
 #include <iostream>
-#include <cstdlib> // Для функцій rand() та srand()
-#include <ctime>   // Для функції time()
+#include <cstdlib> // For rand() and srand()
+#include <ctime>   // For time()
 
-// Прототипи функцій для завдань
+// Function prototypes
 void task1();
 void task2();
 void task3();
@@ -10,18 +10,18 @@ void task4();
 void print3DArray(double*** arr, int depth, int rows, int cols);
 
 int main() {
-    // Ініціалізація генератора випадкових чисел поточним часом
+    // Initialize random seed
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
     
     int choice;
     do {
         std::cout << "\n================ PRACTICAL WORK 16 ================\n";
-        std::cout << "1 - Завдання 1: Динамічна пам'ять для примітивних типів\n";
-        std::cout << "2 - Завдання 2: Посилання на double через вказівник\n";
-        std::cout << "3 - Завдання 3: Одновимірний динамічний масив (зворотні індекси)\n";
-        std::cout << "4 - Завдання 4: Тривимірний динамічний масив\n";
-        std::cout << "0 - Вихід з програми\n";
-        std::cout << "Оберіть завдання: ";
+        std::cout << "1 - Task 1: Dynamic memory for primitive types\n";
+        std::cout << "2 - Task 2: Reference to double via pointer\n";
+        std::cout << "3 - Task 3: 1D dynamic array (reverse indices)\n";
+        std::cout << "4 - Task 4: 3D dynamic array (random float)\n";
+        std::cout << "0 - Exit\n";
+        std::cout << "Choose task: ";
         std::cin >> choice;
         std::cout << "---------------------------------------------------\n";
 
@@ -39,116 +39,116 @@ int main() {
                 task4();
                 break;
             case 0:
-                std::cout << "Вихід з програми. До побачення!\n";
+                std::cout << "Exiting program. Goodbye!\n";
                 break;
             default:
-                std::cout << "Невірний вибір! Спробуйте ще раз.\n";
+                std::cout << "Invalid choice! Please try again.\n";
         }
     } while (choice != 0);
 
     return 0;
 }
 
-// === ЗАВДАННЯ 1 ===
+// === TASK 1 ===
 void task1() {
-    std::cout << "[Завдання 1] Виділення пам'яті для примітивних типів\n";
+    std::cout << "[Task 1] Memory allocation for primitive types\n";
     
-    // Виділяємо пам'ять
+    // Allocating memory
     int* pInt = new int;
     char* pChar = new char;
     float* pFloat = new float;
     bool* pBool = new bool;
 
-    // Введення даних
-    std::cout << "Введіть ціле число (int): ";
+    // Input data
+    std::cout << "Enter an integer (int): ";
     std::cin >> *pInt;
-    std::cout << "Введіть символ (char): ";
+    std::cout << "Enter a character (char): ";
     std::cin >> *pChar;
-    std::cout << "Введіть число з плаваючою крапкою (float): ";
+    std::cout << "Enter a float number (float): ";
     std::cin >> *pFloat;
-    std::cout << "Введіть логічне значення (0 - false, 1 - true): ";
+    std::cout << "Enter a boolean (0 - false, 1 - true): ";
     std::cin >> *pBool;
 
-    // Виведення даних
-    std::cout << "\nВведені значення з динамічної пам'яті:\n";
+    // Output data
+    std::cout << "\nValues from dynamic memory:\n";
     std::cout << "int: " << *pInt << "\n";
     std::cout << "char: " << *pChar << "\n";
     std::cout << "float: " << *pFloat << "\n";
     std::cout << "bool: " << std::boolalpha << *pBool << "\n";
 
-    // Звільнення пам'яті
+    // Free memory
     delete pInt;
     delete pChar;
     delete pFloat;
     delete pBool;
     
-    std::cout << "Пам'ять успішно звільнено.\n";
+    std::cout << "Memory successfully freed.\n";
 }
 
-// === ЗАВДАННЯ 2 ===
+// === TASK 2 ===
 void task2() {
-    std::cout << "[Завдання 2] Посилання на double через вказівник\n";
+    std::cout << "[Task 2] Reference to double via pointer\n";
     
-    // Виділяємо пам'ять для double
+    // Allocate memory for double
     double* pDouble = new double;
     
-    // Створюємо посилання, яке зв'язуємо з розіменованим вказівником
+    // Create reference linked to dereferenced pointer
     double& refDouble = *pDouble;
 
-    // Введення через посилання
-    std::cout << "Введіть значення типу double через посилання: ";
+    // Input via reference
+    std::cout << "Enter double value via reference: ";
     std::cin >> refDouble;
 
-    // Виведення через посилання
-    std::cout << "Значення змінної через посилання: " << refDouble << "\n";
+    // Output via reference
+    std::cout << "Value via reference: " << refDouble << "\n";
 
-    // Видалення пам'яті (через оригінальний вказівник)
+    // Delete memory via original pointer
     delete pDouble;
     
-    std::cout << "Пам'ять успішно звільнено.\n";
+    std::cout << "Memory successfully freed.\n";
 }
 
-// === ЗАВДАННЯ 3 ===
+// === TASK 3 ===
 void task3() {
-    std::cout << "[Завдання 3] Динамічний масив цілих чисел\n";
+    std::cout << "[Task 3] Dynamic 1D integer array\n";
     
     int size;
-    std::cout << "Введіть розмір масиву: ";
+    std::cout << "Enter array size: ";
     std::cin >> size;
 
     if (size <= 0) {
-        std::cout << "Розмір масиву має бути більшим за 0!\n";
+        std::cout << "Array size must be greater than 0!\n";
         return;
     }
 
-    // Створення динамічного масиву
+    // Allocate 1D array
     int* arr = new int[size];
 
-    // Заповнення значеннями (індекси у зворотному порядку)
+    // Fill array with indices in reverse order
     for (int i = 0; i < size; i++) {
         arr[i] = size - 1 - i;
     }
 
-    // Виведення масиву в окремому циклі
-    std::cout << "Елементи масиву (зворотні індекси):\n";
+    // Print array in a separate loop
+    std::cout << "Array elements (reverse indices):\n";
     for (int i = 0; i < size; i++) {
         std::cout << "arr[" << i << "] = " << arr[i] << "\n";
     }
 
-    // Видалення динамічного масиву
+    // Delete dynamic array
     delete[] arr;
     
-    std::cout << "Динамічний масив видалено з пам'яті.\n";
+    std::cout << "Dynamic array deleted from memory.\n";
 }
 
-// === ЗАВДАННЯ 4 ===
+// === TASK 4 ===
 void task4() {
-    std::cout << "[Завдання 4] Тривимірний динамічний масив\n";
+    std::cout << "[Task 4] Dynamic 3D array of floats\n";
     
-    int depth = 2, rows = 3, cols = 3; // Фіксовані невеликі розміри для зручності виведення
-    std::cout << "Створення масиву розміром " << depth << "x" << rows << "x" << cols << "\n";
+    int depth = 2, rows = 3, cols = 3; // Fixed small sizes for clean output
+    std::cout << "Creating 3D array of size " << depth << "x" << rows << "x" << cols << "\n";
 
-    // 1. Виділення пам'яті для 3D масиву
+    // 1. Memory allocation for 3D array
     double*** array3D = new double**[depth];
     for (int i = 0; i < depth; i++) {
         array3D[i] = new double*[rows];
@@ -157,7 +157,7 @@ void task4() {
         }
     }
 
-    // 2. Заповнення випадковими числами з плаваючою крапкою (від 0.0 до 99.9)
+    // 2. Fill with random floats (from 0.0 to 99.9)
     for (int i = 0; i < depth; i++) {
         for (int j = 0; j < rows; j++) {
             for (int k = 0; k < cols; k++) {
@@ -166,26 +166,26 @@ void task4() {
         }
     }
 
-    // 3. Виклик функції виведення масиву
-    std::cout << "\nВиклик функції для виведення тривимірного масиву:\n";
+    // 3. Call print function
+    std::cout << "\nCalling function to display 3D array:\n";
     print3DArray(array3D, depth, rows, cols);
 
-    // 4. Видалення масиву з пам'яті (у зворотному порядку)
+    // 4. Delete 3D array from memory (reverse order)
     for (int i = 0; i < depth; i++) {
         for (int j = 0; j < rows; j++) {
-            delete[] array3D[i][j]; // Видаляємо рядки (стовпці)
+            delete[] array3D[i][j]; // Delete columns
         }
-        delete[] array3D[i]; // Видаляємо матриці
+        delete[] array3D[i]; // Delete rows
     }
-    delete[] array3D; // Видаляємо масив матриць
+    delete[] array3D; // Delete depth
 
-    std::cout << "Тривимірний масив повністю видалено з пам'яті.\n";
+    std::cout << "3D array successfully deleted from memory.\n";
 }
 
-// Окрема функція для виведення 3D масиву
+// Separate function to print 3D array
 void print3DArray(double*** arr, int depth, int rows, int cols) {
     for (int i = 0; i < depth; i++) {
-        std::cout << "Зріз (Блок) " << i << ":\n";
+        std::cout << "Block (Layer) " << i << ":\n";
         for (int j = 0; j < rows; j++) {
             for (int k = 0; k < cols; k++) {
                 std::cout << arr[i][j][k] << "\t";
